@@ -1,0 +1,13 @@
+$mapa: "../img/mapa_clear.jpg";
+$mapaAdmin: "../img/mapa_clear_admin.jpg";
+
+//top, left, width, height, background
+$pin_maior: -110px, -33px, 73px, 122px, "../img/PIN.png";
+$pin_medio: -68px, -20px, 44px, 73px, "../img/PIN2.png";
+$pin: -46px, -14px, 30px, 49px, "../img/PIN2.png";
+
+$azul: #383b78;
+$font: Arial;
+
+$animateAdmin: opacity 0.15s linear;
+$animate: opacity 0.15s linear;

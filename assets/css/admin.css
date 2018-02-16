@@ -1,0 +1,166 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #e6e6e6;
+  font-family: Arial; }
+
+p, ul, li, a {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+
+#main {
+  width: 1318px;
+  height: 1250px;
+  margin: 0 auto;
+  background: #e6e6e6 url("../img/mapa_clear_admin.jpg");
+  position: relative; }
+  #main #edit {
+    background: #fff;
+    width: 350px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px;
+    border: solid 1px #999;
+    border-radius: 4px;
+    z-index: 9997; }
+    #main #edit p {
+      display: none; }
+    #main #edit input, #main #edit textarea {
+      width: 95%;
+      padding: 8px;
+      margin-bottom: 7px;
+      background: #ccc;
+      border: 0;
+      color: #000;
+      font-size: 15px;
+      font-weight: bold; }
+    #main #edit #content {
+      height: 50px; }
+    #main #edit #load {
+      margin: 10px 0 0 10px;
+      display: none; }
+    #main #edit button {
+      padding: 8px;
+      font-size: 15px;
+      background: green;
+      color: #fff;
+      border: none;
+      font-weight: bold; }
+    #main #edit button#del {
+      font-size: 11px;
+      background: #666; }
+  #main #markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+    #main #markers .pin {
+      position: absolute;
+      cursor: pointer;
+      top: -46px;
+      left: -14px;
+      width: 30px;
+      height: 49px;
+      background-image: url("../img/PIN2.png");
+      background-position: center center;
+      background-size: 100%; }
+  #main #list {
+    background: #ccc;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.15s linear; }
+    #main #list.show {
+      opacity: 1;
+      z-index: 9998; }
+    #main #list .container {
+      width: 700px;
+      height: 350px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -175px;
+      margin-left: -350px;
+      background: #fff;
+      border-radius: 4px;
+      border: solid 1px #999;
+      overflow-x: hidden;
+      overflow-y: scroll; }
+      #main #list .container ul {
+        font-size: 15px;
+        padding: 20px; }
+        #main #list .container ul li {
+          border: solid 1px #eaeaea;
+          padding: 5px;
+          color: #666;
+          position: relative;
+          opacity: 1;
+          transition: opacity 0.15s linear; }
+          #main #list .container ul li span {
+            font-size: 12px;
+            font-weight: bold;
+            color: red; }
+          #main #list .container ul li .delList {
+            background: #ccc;
+            border: none;
+            padding: 5px 10px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bold;
+            position: absolute;
+            right: 15px;
+            top: 19px;
+            cursor: pointer; }
+          #main #list .container ul li:hover {
+            background: #eaeaea; }
+            #main #list .container ul li:hover .delList {
+              background: red; }
+  #main a#openList {
+    position: fixed;
+    background: #fff;
+    top: 20px;
+    z-index: 9999;
+    padding: 8px;
+    border-radius: 4px;
+    border: solid 1px #999; }
+    #main a#openList .burger-container {
+      position: relative;
+      height: 28px;
+      width: 36px; }
+      #main a#openList .burger-container .burger-bun-top, #main a#openList .burger-container .burger-bun-bot, #main a#openList .burger-container .burger-filling {
+        position: absolute;
+        display: block;
+        height: 4px;
+        width: 36px;
+        border-radius: 2px;
+        background: #666; }
+      #main a#openList .burger-container .burger-bun-top {
+        top: 0;
+        transform-origin: 34px 2px; }
+      #main a#openList .burger-container .burger-bun-bot {
+        bottom: 0;
+        transform-origin: 34px 2px; }
+      #main a#openList .burger-container .burger-filling {
+        top: 12px; }
+    #main a#openList.close {
+      background: #666; }
+      #main a#openList.close .burger-container .burger-bun-top, #main a#openList.close .burger-container .burger-bun-bot, #main a#openList.close .burger-container .burger-filling {
+        left: -4px;
+        background: #fff; }
+      #main a#openList.close .burger-container .burger-filling {
+        display: none; }
+      #main a#openList.close .burger-container .burger-bun-top {
+        transform: rotate(-45deg); }
+      #main a#openList.close .burger-container .burger-bun-bot {
+        transform: rotate(45deg); }
+
+body.listModeOn {
+  height: 100%;
+  overflow: hidden; }

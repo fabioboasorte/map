@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Mapa Rádio Capital</title>
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+
+<body class="">
+
+    <div id="main">
+        <div id="edit">
+            <ul>
+                <li><strong></strong><p></p></li>
+                <li><input type="text" id="title" placeholder="titulo"></li>
+                <li><textarea id="content" placeholder="texto"></textarea></li>
+                <li><input type="text" id="audio" placeholder="url do audio"></li>
+                <li style="font-size:12px;margin-bottom:6px;"><b>Cliques:</b> <span id="ck"></span></li>
+                <li><button id="submit" style="float:left">Atualizar</button><img id="load" src="assets/img/load.gif" /><button id="del" style="float:right">excluir?</button></li>
+                <input type="hidden" id="id" value="">
+                <input type="hidden" id="mark" value="">
+            </ul> 
+        </div>
+
+        <a href="#" id="openList" class="">
+            <div class="burger-container">
+                <span class="burger-bun-top"></span>
+                <span class="burger-filling"></span>
+                <span class="burger-bun-bot"></span>
+            </div>
+        </a>
+        <div id="list" class="">
+            <div class="container">
+                <ul id="listEl">
+                </ul>
+            </div>
+        </div>
+
+        <div id="markers"></div>
+    </div>
+    
+    <script src="assets/js/admin.js"></script>
+
+</body>
+</html>
