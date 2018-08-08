@@ -3,9 +3,9 @@
 global $pdo;
 
 $dbInfo['server'] = "localhost";
-$dbInfo['database'] = "wp_capital";
+$dbInfo['database'] = "capital_MAPA";
 $dbInfo['username'] = "root";
-$dbInfo['password'] = "";
+$dbInfo['password'] = "root";
 
 $con = "mysql:host=" . $dbInfo['server'] . "; dbname=" . $dbInfo['database'];
 $pdo = new PDO($con, $dbInfo['username'], $dbInfo['password']);
@@ -32,7 +32,7 @@ ALTER TABLE `markers`
   ADD PRIMARY KEY (`ID`);
   
 ALTER TABLE `markers`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 */
   
 
