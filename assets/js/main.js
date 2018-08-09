@@ -59,11 +59,15 @@ VIEW.mappCapital = (function (window, undefined) {
             if (e.target.className == 'pin') {
 
                 el.html.style.overflow = 'hidden';
-                el.body.style.overflow = 'hidden';
-                el.modal.main.style.width = window.outerWidth + 'px';
-                el.modal.main.style.height = window.outerHeight + 'px';
+				el.body.style.overflow = 'hidden';
+				
+                var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+				var screenHeight = (window.innerWidth > 0) ? window.innerHeight : screen.height;
+				el.modal.main.style.width = screenWidth + 'px';
+				el.modal.main.style.height = screenHeight + 'px';
                 
-                var target = e.path[1].id;
+				var target = e.target.offsetParent.id;
+				
                 getOneMarker(target, function(){
                     el.modal.list[1].innerHTML = jsonMarker.title;
                     el.modal.list[2].innerHTML = jsonMarker.content;
