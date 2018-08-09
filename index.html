@@ -11,13 +11,13 @@
 
 <body>
 
-    <div id="modal">
-        <div class="content">
-            <ul id="play">
+    <div id="modal" class="player">
+        <div class="playerWrapper">
+            <ul id="play" class="play">
                 <li></li>
-                <li class="title">titulo</li>
-                <li class="content">content</li>
-                <li class="audio">
+                <li class="title"></li>
+                <li class="content"></li>
+                <li id="audioDesktop" class="audio">
                     <audio controls controlsList="nodownload">
                         <source src="" type="audio/mpeg"> 
                     </audio>
@@ -25,7 +25,20 @@
             </ul>
             <button id="close">x</button>
         </div>
-    </div>
+	</div>
+	
+	<div id="playerMobile" class="player mobile">
+		<div class="playerWrapper">
+            <ul id="playMobile" class="play">
+                <li></li>
+                <li id="audioMobile" class="audio">
+                    <audio controls controlsList="nodownload">
+                        <source src="" type="audio/mpeg"> 
+                    </audio>
+                </li>
+            </ul>
+        </div>
+	</div>
 
     <div id="main">
         <div id="markers"></div>

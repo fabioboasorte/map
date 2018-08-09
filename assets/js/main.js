@@ -2,7 +2,7 @@ var VIEW = window.VIEW || {};
 VIEW.mappCapital = window.VIEW.mappCapital || {};
 VIEW.mappCapital = (function (window, undefined) {
 
-    console.log('view-map-app-radio-capital', '1.1.0', 'fix-viewport-responsive');
+    console.log('view-map-app-radio-capital', '1.2.0', 'fix-iphone');
 
     var jsonMarker = {
         mark: false,
@@ -24,33 +24,31 @@ VIEW.mappCapital = (function (window, undefined) {
             main: document ? document.getElementById('modal') : '',
             close: document ? document.getElementById('close') : '',
             list: document ? document.getElementById('play').getElementsByTagName("li") : '',
-            audio: document ? document.getElementsByTagName('audio')[0] : '',
-            source: document ? document.getElementsByTagName('source')[0] : '',
-        };
+            audio: document ? document.getElementById('audioDesktop').getElementsByTagName('audio')[0] : '',
+            source: document ? document.getElementById('audioDesktop').getElementsByTagName('source')[0] : '',
+		};
+        var playerMobile = {
+            main: document ? document.getElementById('playerMobile') : '',
+            list: document ? document.getElementById('playMobile').getElementsByTagName("li") : '',
+            audio: document ? document.getElementById('audioMobile').getElementsByTagName('audio')[0] : '',
+            source: document ? document.getElementById('audioMobile').getElementsByTagName('source')[0] : '',
+		};
         return {
             html: html,
             body: body,
             main: main,
             markers: markers,
-            modal: modal,
+			modal: modal,
+			playerMobile: playerMobile,
             markerHTML: markerHTML
         }
     };
     
     var setChangeViewportMeta = function() {
         var viewportmeta = document.querySelector('meta[name="viewport"]');
-        viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=1, maximum-scale=1.3, width=device-width');
-        
-        if (document.body.offsetWidth <= 320) {
-            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.63, maximum-scale=1.3, width=480');
-        } else if (document.body.offsetWidth <= 480) {
-            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.89, maximum-scale=1.3, width=480');
-        } else if (document.body.offsetWidth <= 768) {
-            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.8, maximum-scale=1.3, width=920');
-        } else if (document.body.offsetWidth <= 1024) {
-            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.85, maximum-scale=1.3, width=920');
-        }
-    };
+		viewportmeta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+	}();
+	
 
     var setElementEvents = function () {
         var el = elements();
@@ -58,31 +56,53 @@ VIEW.mappCapital = (function (window, undefined) {
             // console.log(e);
             if (e.target.className == 'pin') {
 
-                el.html.style.overflow = 'hidden';
-				el.body.style.overflow = 'hidden';
-				
-                var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-				var screenHeight = (window.innerWidth > 0) ? window.innerHeight : screen.height;
-				el.modal.main.style.width = screenWidth + 'px';
-				el.modal.main.style.height = screenHeight + 'px';
-                
+				var mobile = isMobile();
 				var target = e.target.offsetParent.id;
-				
-                getOneMarker(target, function(){
-                    el.modal.list[1].innerHTML = jsonMarker.title;
-                    el.modal.list[2].innerHTML = jsonMarker.content;
-                    el.modal.source.src = jsonMarker.audio;
-                    el.modal.main.classList.add('show');
-                    /*player*/
-                    audioControl('load');
-                    audioControl('play');
 
-                    ajax('ck', target, false);
-                });
+				if(!mobile) {
+					console.log("playDesktop");
+
+					el.html.style.overflow = 'hidden';
+					el.body.style.overflow = 'hidden';
+					
+					var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+					var screenHeight = (window.innerWidth > 0) ? window.innerHeight : screen.height;
+					el.modal.main.style.width = screenWidth + 'px';
+					el.modal.main.style.height = screenHeight + 'px';
+					
+					
+					getOneMarker(target, function(){
+						el.modal.list[1].innerHTML = jsonMarker.title;
+						el.modal.list[2].innerHTML = jsonMarker.ck + " visualizações";
+						el.modal.source.src = jsonMarker.audio;
+						el.modal.main.classList.add('show');
+						/*player*/
+						audioControl('load');
+						audioControl('play');
+	
+						ajax('ck', target, false);
+					});
+				}
+				else {
+					/*player mobile*/
+					console.log("playMobile");
+					getOneMarker(target, function(){
+						// el.modal.list[1].innerHTML = jsonMarker.title;
+						// el.modal.list[2].innerHTML = jsonMarker.ck + " visualizações";
+						el.playerMobile.source.src = jsonMarker.audio;
+						el.playerMobile.main.classList.add('show');
+						/*player*/
+						audioControl('load');
+						audioControl('play');
+	
+						ajax('ck', target, false);
+					});
+				}
             }
             if (e.target.id == 'modal') {
                 el.modal.close.click();
             }
+
         });
         el.modal.close.addEventListener("click", function(){
             el.html.style.overflow = 'auto';
@@ -92,7 +112,8 @@ VIEW.mappCapital = (function (window, undefined) {
             return false;
         });
         window.addEventListener("resize", function(){
-            el.modal.close.click();
+			audioControl('stop');
+            return false;			
         });
     };
 
@@ -141,22 +162,41 @@ VIEW.mappCapital = (function (window, undefined) {
     };
 
     var audioControl = function (action) {
-        var el = elements();
+		var el = elements();
+		var mobile = isMobile();
+
+		if(!mobile){
+			element = el.modal;
+		}
+		else {
+			element = el.playerMobile;
+		}
+
         switch (action) {
             case 'load':
-                el.modal.audio.load();
+                element.audio.load();
                 break;
             case 'play':
                 setTimeout(function(){
-                    el.modal.audio.play();
+                    element.audio.play();
                 }, 500);
                 break;
             case 'stop':
-                el.modal.audio.pause();
-                el.modal.source.src = '';
+                element.audio.pause();
+                element.source.src = '';
                 break;
         }
-    };
+	};
+	
+	var isMobile = function () {
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		if(screenWidth < 900) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	};
 
     var ajax = function (action, data, callback) {
         var callback = typeof callback == "function" ? callback : function () { };
@@ -200,7 +240,7 @@ VIEW.mappCapital = (function (window, undefined) {
 
     return {
         init: function () {
-            getMarkers(setElementEvents);
+			getMarkers(setElementEvents);
         }
     };
 
