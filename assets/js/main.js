@@ -131,7 +131,7 @@ VIEW.mappCapital = (function (window, undefined) {
         
         var files = {
             base: {
-                dev: 'http://localhost/capital/mapa/_markers.php',
+                dev: 'http://capital-map.local/_markers.php',
                 qa: '',
                 prd: ''
             },
