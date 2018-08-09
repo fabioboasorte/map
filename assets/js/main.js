@@ -2,7 +2,7 @@ var VIEW = window.VIEW || {};
 VIEW.mappCapital = window.VIEW.mappCapital || {};
 VIEW.mappCapital = (function (window, undefined) {
 
-    console.log('view-map-app-radio-capital', '1.0.0');
+    console.log('view-map-app-radio-capital', '1.1.0', 'fix-viewport-responsive');
 
     var jsonMarker = {
         mark: false,
@@ -15,6 +15,7 @@ VIEW.mappCapital = (function (window, undefined) {
     };
 
     var elements = function () {
+        var html = document ? document.documentElement : '';
         var body = document ? document.body : '';
         var main = document ? document.getElementById('main') : '';
         var markers = document ? document.getElementById('markers') : '';
@@ -27,6 +28,7 @@ VIEW.mappCapital = (function (window, undefined) {
             source: document ? document.getElementsByTagName('source')[0] : '',
         };
         return {
+            html: html,
             body: body,
             main: main,
             markers: markers,
@@ -34,12 +36,33 @@ VIEW.mappCapital = (function (window, undefined) {
             markerHTML: markerHTML
         }
     };
+    
+    var setChangeViewportMeta = function() {
+        var viewportmeta = document.querySelector('meta[name="viewport"]');
+        viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=1, maximum-scale=1.3, width=device-width');
+        
+        if (document.body.offsetWidth <= 320) {
+            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.63, maximum-scale=1.3, width=480');
+        } else if (document.body.offsetWidth <= 480) {
+            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.89, maximum-scale=1.3, width=480');
+        } else if (document.body.offsetWidth <= 768) {
+            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.8, maximum-scale=1.3, width=920');
+        } else if (document.body.offsetWidth <= 1024) {
+            return viewportmeta.setAttribute('content', 'user-scalable=yes, initial-scale=0.85, maximum-scale=1.3, width=920');
+        }
+    };
 
     var setElementEvents = function () {
         var el = elements();
         el.body.addEventListener("click", function (e) {
-            console.log(e);
+            // console.log(e);
             if (e.target.className == 'pin') {
+
+                el.html.style.overflow = 'hidden';
+                el.body.style.overflow = 'hidden';
+                el.modal.main.style.width = window.outerWidth + 'px';
+                el.modal.main.style.height = window.outerHeight + 'px';
+                
                 var target = e.path[1].id;
                 getOneMarker(target, function(){
                     el.modal.list[1].innerHTML = jsonMarker.title;
@@ -58,9 +81,14 @@ VIEW.mappCapital = (function (window, undefined) {
             }
         });
         el.modal.close.addEventListener("click", function(){
+            el.html.style.overflow = 'auto';
+            el.body.style.overflow = 'auto';
             audioControl('stop');
             el.modal.main.classList.remove('show');
             return false;
+        });
+        window.addEventListener("resize", function(){
+            el.modal.close.click();
         });
     };
 
