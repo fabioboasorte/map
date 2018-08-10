@@ -33,6 +33,8 @@ VIEW.mappCapital = (function (window, undefined) {
             audio: document ? document.getElementById('audioMobile').getElementsByTagName('audio')[0] : '',
             source: document ? document.getElementById('audioMobile').getElementsByTagName('source')[0] : '',
 		};
+        var viewportmeta = document.querySelector('meta[name="viewport"]');
+
         return {
             html: html,
             body: body,
@@ -40,13 +42,14 @@ VIEW.mappCapital = (function (window, undefined) {
             markers: markers,
 			modal: modal,
 			playerMobile: playerMobile,
+            viewportmeta: viewportmeta,
             markerHTML: markerHTML
         }
     };
     
     var setChangeViewportMeta = function() {
-        var viewportmeta = document.querySelector('meta[name="viewport"]');
-		viewportmeta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+        var el = elements();
+		el.viewportmeta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
 	}();
 	
 
@@ -61,7 +64,6 @@ VIEW.mappCapital = (function (window, undefined) {
 
 				if(!mobile) {
 					console.log("playDesktop");
-
 					el.html.style.overflow = 'hidden';
 					el.body.style.overflow = 'hidden';
 					
@@ -86,8 +88,13 @@ VIEW.mappCapital = (function (window, undefined) {
 				else {
 					/*player mobile*/
 					console.log("playMobile");
+                    var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+                    var screenHeight = (window.innerWidth > 0) ? window.innerHeight : screen.height;
+                    el.playerMobile.main.style.width = screenWidth + 'px';
+                    // el.playerMobile.main.style.height = screenHeight + 'px';
+
 					getOneMarker(target, function(){
-						// el.modal.list[1].innerHTML = jsonMarker.title;
+						el.playerMobile.list[2].innerHTML = jsonMarker.title;
 						// el.modal.list[2].innerHTML = jsonMarker.ck + " visualizações";
 						el.playerMobile.source.src = jsonMarker.audio;
 						el.playerMobile.main.classList.add('show');
@@ -131,6 +138,13 @@ VIEW.mappCapital = (function (window, undefined) {
             div.style.left = marker.x + 'px';
             el.markers.appendChild(div);
         }
+
+        window.addEventListener("resize", function(){
+            mobilePlayerWindowAdjust();
+        });
+
+        mobilePlayerWindowAdjust();
+
         callback(); //setEvent
     };
 
@@ -197,6 +211,19 @@ VIEW.mappCapital = (function (window, undefined) {
 			return false;
 		}
 	};
+
+    var mobilePlayerWindowAdjust = function () {
+        var el = elements();
+        var mobile = isMobile();
+        if(mobile) {
+            el.viewportmeta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=no');
+            var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+            el.playerMobile.main.style.width = screenWidth + 'px';
+        }
+        else{
+            el.viewportmeta.setAttribute('content', 'width=device-width, initial-scale=1.0, user-scalable=yes');
+        }
+    };
 
     var ajax = function (action, data, callback) {
         var callback = typeof callback == "function" ? callback : function () { };

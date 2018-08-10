@@ -92,8 +92,8 @@ p, ul, li, a {
 	background: #ccc url(../img/logo_thumb.png) center center no-repeat;
 }
 .player.mobile .playerWrapper ul.play li:first-child {
-	width: 56px;
-	height: 56px;
+	width: 70px;
+	height: 70px;
 	float: left;
 	background: #ccc url(../img/logo_thumb.png) center center no-repeat;
 	background-size: 100% auto;
@@ -109,6 +109,7 @@ p, ul, li, a {
 	width: calc(100vw - 110px);
 	float: left;
 	margin-right: 0;
+	height: 70px;
 }
 .player .playerWrapper ul.play li.title {
 	margin-top: 7px;
@@ -117,12 +118,20 @@ p, ul, li, a {
 	line-height: 22px;
 	margin-bottom: 4px;
 }
+.player.mobile .playerWrapper ul.play li.title {
+	margin-top: 12px;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 0;
+	line-height: 1;
+	height: auto;
+}
 .player .playerWrapper ul.play li.content {
 	font-size: 14px;
 	line-height: 20px;
 	margin-bottom: 4px;
 }
-.player.mobile .playerWrapper ul.play li.title,
+
 .player.mobile .playerWrapper ul.play li.content {
 	display: none;
 }
